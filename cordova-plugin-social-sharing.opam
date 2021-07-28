@@ -1,0 +1,19 @@
+opam-version: "2.0"
+name:         "ocaml-cordova-plugin-social-sharing"
+maintainer:   "Danny Willems <contact@danny-willems.be>"
+authors:       "Danny Willems <contact@danny-willems.be>"
+homepage:     "git+https://github.com/dannywillems/ocaml-cordova-plugin-social-sharing"
+bug-reports:  "git+https://github.com/dannywillems/ocaml-cordova-plugin-social-sharing/issues"
+dev-repo:     "git+https://github.com/dannywillems/ocaml-cordova-plugin-social-sharing"
+license:      "LGPL-3.0 with OCaml linking exception"
+description: "Binding to the 'social sharing' cordova plugin using gen_js_api"
+synopsis: "Binding to the 'social sharing' cordova plugin using gen_js_api"
+version:      "1.0"
+build: [[ "dune" "build" "-j" jobs "-p" name "@install" ]]
+depends: [
+  "ocaml" { >= "4.08.0"}
+  "dune" {>= "2.8"}
+  "gen_js_api"
+  "js_of_ocaml" {>= "3.8.0"}
+  "js_of_ocaml-ppx" {>= "3.8.0"}
+]

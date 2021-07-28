@@ -1,0 +1,12 @@
+(rule
+ (targets cordova_social_sharing.ml)
+ (deps cordova_social_sharing.mli)
+ (action (run %{bin:gen_js_api} %{deps})))
+
+(library
+ (public_name cordova-plugin-social-sharing)
+ (name cordova_social_sharing)
+ (modes byte)
+ (libraries gen_js_api js_of_ocaml js_of_ocaml-ppx)
+ (preprocess (pps js_of_ocaml-ppx))
+)

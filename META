@@ -1,3 +1,0 @@
-version = "1.0"
-description = "Binding to cordova-plugin-x-socialsharing using gen_js_api"
-archive(byte) = "cordova_social_sharing.cma"
