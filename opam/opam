@@ -10,7 +10,7 @@ dev-repo:     "https://github.com/dannywillems/ocaml-cordova-plugin-social-shari
 
 license:      "LGPL-3.0 with OCaml linking exception"
 
-version:      "1.0"
+version:      "2.0"
 
 build: [make "build"]
 install: [make "install"]

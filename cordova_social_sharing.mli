@@ -1,12 +1,13 @@
 (* -------------------------------------------------------------------------- *)
 type options = private Ojs.t
 
-val create_options :  ?message:string       ->
-                      ?subject:string       ->
-                      ?files:string list    ->
-                      ?url:string           ->
-                      ?chooser_title:string ->
-                      unit                  ->
+val create_options :  ?message:string          ->
+                      ?subject:string          ->
+                      ?files:string list       ->
+                      ?url:string              ->
+                      ?chooser_title:string    ->
+                      ?app_package_name:string ->
+                      unit                     ->
                       options
 [@@js.builder]
 (* -------------------------------------------------------------------------- *)
@@ -30,27 +31,29 @@ val share_with_options :
 [@@js.global "window.plugins.socialsharing.shareWithOptions"]
 
 val share_via_twitter  :
-  string                              ->
+  ?message:string                                         ->
   (* No files array, see official repo *)
-  ?files:string                       ->
-  ?url:string                         ->
-  unit                                ->
+  ?files:string                                           ->
+  ?url:string                                             ->
+  ?succ_cb:((bool -> unit) [@js.default (fun b -> ())])   ->
+  ?err_cb:((string -> unit) [@js.default (fun e -> ())])  ->
+  unit                                                    ->
   unit
 [@@js.global "window.plugins.socialsharing.shareViaTwitter"]
 
 val share_via_facebook :
-  string                                                  ->
+  ?message:string                                         ->
   ?files:string list                                      ->
   ?url:string                                             ->
-  ?succ_cb:((unit -> unit) [@js.default (fun () -> ())])  ->
+  ?succ_cb:((bool -> unit) [@js.default (fun b -> ())])   ->
   ?err_cb:((string -> unit) [@js.default (fun e -> ())])  ->
   unit                                                    ->
   unit
 [@@js.global "window.plugins.socialsharing.shareViaFacebook"]
 
 val share_via_instagram :
-  string                                                  ->
-  ?url:string                                             ->
+  ?message:string                                         ->
+  ?files:string list                                      ->
   ?succ_cb:((unit -> unit) [@js.default (fun () -> ())])  ->
   ?err_cb:((string -> unit) [@js.default (fun e -> ())])  ->
   unit                                                    ->
@@ -58,8 +61,7 @@ val share_via_instagram :
 [@@js.global "window.plugins.socialsharing.shareViaInstagram"]
 
 val share_via_whatsapp :
-  string                                                  ->
-  ?img:string                                             ->
+  ?message:string                                         ->
   ?url:string                                             ->
   ?succ_cb:((unit -> unit) [@js.default (fun () -> ())])  ->
   ?err_cb:((string -> unit) [@js.default (fun e -> ())])  ->
@@ -69,9 +71,9 @@ val share_via_whatsapp :
 
 (* Only the second interface is implemented because other fail on majority *)
 val share_via_sms :
-  string                                                  ->
-  ?numbers:string                                         ->
-  ?succ_cb:((string -> unit) [@js.default (fun e -> ())]) ->
+  ?options:options                                        ->
+  ?numbers:string list                                    ->
+  ?succ_cb:((bool -> unit) [@js.default (fun b -> ())])   ->
   ?err_cb:((string -> unit) [@js.default (fun e -> ())])  ->
   unit                                                    ->
   unit
@@ -91,21 +93,20 @@ val available : unit -> bool
 ]
 
 val save_to_photo_album :
-  string list                                             ->
-  ?onSuccess:(unit -> unit)                               ->
-  ?onError:(unit -> unit)                                 ->
+  ?files:string list                                      ->
+  ?succ_cb:((unit -> unit) [@js.default (fun () -> ())])  ->
+  ?err_cb:((string -> unit) [@js.default (fun e -> ())])  ->
   unit                                                    ->
   unit
 [@@js.global "window.plugins.socialsharing.saveToPhotoAlbum"]
 
 val can_share_via :
   via:string                                              ->
-  msg:string                                              ->
+  ?message:string                                         ->
   ?subject:string                                         ->
-  ?fileOrArray:string list                                ->
-  ?url:string                                             ->
-  successCallback:(unit -> unit)                          ->
-  errorCallback:(unit -> unit)                            ->
+  ?files:string list                                      ->
+  ?succ_cb:((unit -> unit) [@js.default (fun () -> ())])  ->
+  ?err_cb:((string -> unit) [@js.default (fun e -> ())])  ->
   unit                                                    ->
   unit
 [@@js.global "window.plugins.socialsharing.canShareVia"]
